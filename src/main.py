@@ -1,6 +1,7 @@
 import requests
 import json
 from typing import Dict
+import sys
 
 
 def get_page(url: str) -> str:
@@ -26,7 +27,7 @@ def load_mods_list(path: str) -> Dict:
     file = open(path)
     return json.load(file)
 
-def main():
+def main(argv: list[str]):
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +
@@ -44,4 +45,4 @@ def main():
     pass
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)

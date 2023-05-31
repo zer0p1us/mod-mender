@@ -10,6 +10,7 @@ packages = [{include = "mod_mender"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.30.0"
+textual = {extras = ["dev"], version = "^0.26.0"}
 
 [build-system]
 requires = ["poetry-core"]

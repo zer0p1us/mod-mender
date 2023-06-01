@@ -42,6 +42,16 @@ def main(argv: list[str]):
     "By zer0p1us\n"+
     "====================================================================================")
     
+    mod_list_data = {}
+    mod_list_file = ""
+
+    if len(argv) <= 1: mod_list_file = input("Please enter path of the file: ")
+    else: mod_list_file = argv[len(argv)-1]
+    
+    try:
+        mod_list_data = load_mods_list(mod_list_file)
+    except Exception:
+        print("Couldn't open file")
     pass
 
 if __name__ == "__main__":

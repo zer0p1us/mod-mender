@@ -63,18 +63,6 @@ def main(argv: list[str]):
     except Exception:
         print("Couldn't open file")
 
-    # Menu
-    match input("option:\n"+
-                "\t0: Quit\n"+
-                "\t1: Check updates\n"):
-        case '0':
-            exit()
-        case '1':
-            # ask which version to update to & check if it can be done
-            pass
-        case _:
-            print("Not a valid option")
-
     pass
 
 if __name__ == "__main__":

@@ -27,6 +27,16 @@ def load_mods_list(path: str) -> Dict:
     file = open(path)
     return json.load(file)
 
+
+def get_latest_mod(url: str, current_mod_version: str, mc_version: str) -> str:
+    """
+    Get the latest version of a mod for a specific minecraft version
+    @param url: path to the list of mod versions
+    @param current_mod_version: current version name of the mod
+    @param mc_version: minecraft version needed
+    """
+    return ""
+
 def main(argv: list[str]):
     print(
     "====================================================================================\n\n"+

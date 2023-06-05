@@ -35,7 +35,7 @@ def get_latest_mod(url: str, current_mod_version: str, mc_version: str) -> str:
     @param current_mod_version: current version name of the mod
     @param mc_version: minecraft version needed
     """
-    return ""
+    return current_mod_version
 
 def main(argv: list[str]):
     print(

@@ -63,6 +63,16 @@ def main(argv: list[str]):
     except Exception:
         print("Couldn't open file")
 
+    # for each mod check latest version available and download if newer
+    for i in mod_list_data.get("mods"):
+        latest_version = get_latest_mod(i.get('url'), i.get('current_version'), mod_list_data.get('minecraft_version'))
+        if (latest_version == i.get('current_version')):
+            print(f"no new updates for {i.get('mod_name')}")
+            continue # no new update available
+
+        # else new version available
+        print(f"new available updates for {i.get('mod_name')} from {i.get('current_version')} -> {latest_version}")
+
     pass
 
 if __name__ == "__main__":

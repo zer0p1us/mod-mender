@@ -9,12 +9,14 @@ This documents the structure of the `JSON` file that contains the mods list
     "mods" : [
         {
             "mod_name" : "name",
-            "url" : "link",
+            "id" : "link",
+            "platform": "modrinth",
             "current_version" : ""
         },
         {
             "mod_name" : "name",
             "url" : "link",
+            "platform": "curseforge",
             "current_version" : ""
         }
     ]
@@ -27,5 +29,7 @@ This documents the structure of the `JSON` file that contains the mods list
 **loader** (String): Indicate the mod loader that the mod list is using
 **mods** (List): List of mods that are part of the mod list, each list element has the following
 - **mod_name** (String): Name of the mod
-- **url** (String): Link to the mod page, yet to be decide on which platforms to support
+- **platform** (String): the platform the mod is hosted on
+- **id** (String): id of the mod to retrieve through modrinth, **Only for Modrinth**
+- **url** (String): Link to the mod page, **Only for CurseForge**
 - **current_version** (String): Version of the mod being using currently

@@ -30,7 +30,7 @@ def modrinth_get(id: str, loader: str, mc_version: str) -> str:
     response = requests.get(url=f'https://api.modrinth.com/v2/project/{id}/version', params=params)
     
     if response.status_code == 200:
-        return response.text
+        return response.json()
     else:
         print(f"Error retrieving webpage. Status code: {response.status_code}")
         return ""

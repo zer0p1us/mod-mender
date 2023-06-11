@@ -27,7 +27,7 @@ def modrinth_get(id: str, loader: str, mc_version: str) -> str:
     @return: GET response
     """
     params = {'loaders': loader, 'game_versions': mc_version}
-    response = requests.get(url=f'https://api.modrinth.com/v2/project/{id}/version', params=params)
+    response = requests.get(url=f'https://api.modrinth.com/v2/project/{id}/version')
     
     if response.status_code == 200:
         return response.json()

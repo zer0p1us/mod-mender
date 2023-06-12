@@ -54,6 +54,19 @@ def modrinth_get_latest_mod(id: str, current_mod_version: str, mc_version: str, 
     @param mc_version: minecraft version needed
     @param loader: mod loader to target
     """
+    modrinth_data = modrinth_get(id, loader, mc_version)
+    for version in modrinth_data:
+        if mc_version not in version["game_versions"]:
+            #print(mc_version, " != ", version["game_versions"])
+            continue
+        if loader not in version["loaders"]:
+            #print(loader, " != ", version["loaders"])
+            continue
+        if version["version_number"] == current_mod_version:
+            return current_mod_version
+        else:
+            return version["version_number"]
+
     return current_mod_version
 
 def main(argv: list[str]):

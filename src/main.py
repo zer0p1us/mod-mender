@@ -3,6 +3,7 @@ import json
 from typing import Dict
 import sys
 
+from mod import mod
 
 def get_page(url: str) -> str:
     """
@@ -68,6 +69,14 @@ def modrinth_get_latest_mod(id: str, current_mod_version: str, mc_version: str, 
             return version["version_number"]
 
     return current_mod_version
+
+def is_update(current_version: mod, latest_version: mod) -> bool:
+    """
+    @param current_version: mod class of the current version
+    @param latest_version: mod class of the latest data for mod
+    @return if the latset_version is a newer version
+    """
+    return False
 
 def main(argv: list[str]):
     print(

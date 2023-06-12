@@ -103,6 +103,7 @@ def main(argv: list[str]):
         mod_list_data = load_mods_list(mod_list_file)
     except Exception:
         print("Couldn't open file")
+        sys.exit(-1)
 
     # for each mod check latest version available and download if newer
     for i in mod_list_data.get("mods"):

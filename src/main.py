@@ -46,7 +46,7 @@ def load_mods_list(path: str) -> Dict:
     return json.load(file)
 
 
-def get_latest_mod(id: str, current_mod_version: str, mc_version: str, loader: str) -> str:
+def modrinth_get_latest_mod(id: str, current_mod_version: str, mc_version: str, loader: str) -> str:
     """
     Get the latest version of a mod for a specific minecraft version
     @param id: path to the list of mod versions
@@ -87,7 +87,7 @@ def main(argv: list[str]):
         if i["platform"] == "curseforge":
            continue
 
-        latest_version = get_latest_mod(i.get('id'), i.get('current_version'), mod_list_data.get('minecraft_version'), mod_list_data.get('loader'))
+        latest_version = modrinth_get_latest_mod(i.get('id'), i.get('current_version'), mod_list_data.get('minecraft_version'), mod_list_data.get('loader'))
         if (latest_version == i.get('current_version')):
             print(f"no new updates for {i.get('mod_name')}")
             continue # no new update available

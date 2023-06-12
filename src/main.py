@@ -84,6 +84,9 @@ def main(argv: list[str]):
 
     # for each mod check latest version available and download if newer
     for i in mod_list_data.get("mods"):
+        if i["platform"] == "curseforge":
+           continue
+
         latest_version = get_latest_mod(i.get('id'), i.get('current_version'), mod_list_data.get('minecraft_version'), mod_list_data.get('loader'))
         if (latest_version == i.get('current_version')):
             print(f"no new updates for {i.get('mod_name')}")

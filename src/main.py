@@ -47,7 +47,7 @@ def load_mods_list(path: str) -> Dict:
     return json.load(file)
 
 
-def modrinth_get_latest_mod(id: str, current_mod_version: str, mc_version: str, loader: str) -> str:
+def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
     """
     Get the latest version of a mod for a specific minecraft version
     @param id: path to the list of mod versions
@@ -55,7 +55,7 @@ def modrinth_get_latest_mod(id: str, current_mod_version: str, mc_version: str, 
     @param mc_version: minecraft version needed
     @param loader: mod loader to target
     """
-    modrinth_data = modrinth_get(id, loader, mc_version)
+    modrinth_data = modrinth_get(current_mod.name, loader, mc_version)
     for version in modrinth_data:
         if mc_version not in version["game_versions"]:
             #print(mc_version, " != ", version["game_versions"])
@@ -63,12 +63,12 @@ def modrinth_get_latest_mod(id: str, current_mod_version: str, mc_version: str, 
         if loader not in version["loaders"]:
             #print(loader, " != ", version["loaders"])
             continue
-        if version["version_number"] == current_mod_version:
-            return current_mod_version
+        if version["version_number"] == current_mod.latest_version:
+            return current_mod
         else:
-            return version["version_number"]
+            return mod(current_mod.name, version["version_number"], version["files"][0]["url"])
 
-    return current_mod_version
+    return current_mod
 
 def is_update(current_version: mod, latest_version: mod) -> bool:
     """
@@ -110,7 +110,7 @@ def main(argv: list[str]):
         if i["platform"] == "curseforge":
            continue
 
-        latest_version = modrinth_get_latest_mod(i.get('id'), i.get('current_version'), mod_list_data.get('minecraft_version'), mod_list_data.get('loader'))
+        latest_version = modrinth_get_latest_mod(mod(name=i.get('id'), latest_version=i.get('current_version'), path_or_url_to_jar=i.get('file')), mod_list_data.get('minecraft_version'), mod_list_data.get('loader')).latest_version
         if (latest_version == i.get('current_version')):
             print(f"no new updates for {i.get('mod_name')}")
             continue # no new update available

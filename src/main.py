@@ -109,14 +109,14 @@ def main(argv: list[str]):
     for i in mod_list_data.get("mods"):
         if i["platform"] == "curseforge":
            continue
-
-        latest_version = modrinth_get_latest_mod(mod(name=i.get('id'), latest_version=i.get('current_version'), path_or_url_to_jar=i.get('file')), mod_list_data.get('minecraft_version'), mod_list_data.get('loader')).latest_version
-        if (latest_version == i.get('current_version')):
-            print(f"no new updates for {i.get('mod_name')}")
+        current_mod = mod(name=i.get('id'), latest_version=i.get('current_version'), path_or_url_to_jar=i.get('file'))
+        latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
+        if (latest_mod.latest_version == current_mod.latest_version):
+            print(f"no new updates for {current_mod.name}")
             continue # no new update available
 
         # else new version available
-        print(f"new available updates for {i.get('mod_name')} from {i.get('current_version')} -> {latest_version}")
+        print(f"new available updates for {current_mod.latest_version} from {current_mod.latest_version} -> {latest_mod.latest_version}")
 
     pass
 

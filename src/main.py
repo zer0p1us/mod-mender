@@ -2,6 +2,7 @@ import requests
 import json
 from typing import Dict
 import sys
+import os
 
 from mod import mod
 
@@ -70,13 +71,17 @@ def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> m
 
     return current_mod
 
-def is_update(current_version: mod, latest_version: mod) -> bool:
+def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     """
+    Remove old jar file and download new one
     @param current_version: mod class of the current version
     @param latest_version: mod class of the latest data for mod
-    @return if the latset_version is a newer version
+    @param jar_destination: path to where to download jar to
     """
-    return False
+    if ((current_version.path_or_url_to_jar != "") & (os.path.exists(jar_destination+current_version.path_or_url_to_jar))): os.remove(jar_destination+current_version.path_or_url_to_jar)
+    file = requests.get(url=latest_version.path_or_url_to_jar, stream=True)
+    print("downloadind: "+jar_destination+latest_version.path_or_url_to_jar.split('/')[-1])
+    open(jar_destination+latest_version.path_or_url_to_jar.split('/')[-1], "wb").write(file.content)
 
 def main(argv: list[str]):
     print(
@@ -117,7 +122,7 @@ def main(argv: list[str]):
 
         # else new version available
         print(f"new available updates for {current_mod.latest_version} from {current_mod.latest_version} -> {latest_mod.latest_version}")
-
+        update_jar(current_mod, latest_mod, argv[len(argv)-1].split('/')[0]+'/')
     pass
 
 if __name__ == "__main__":

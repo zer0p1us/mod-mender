@@ -84,7 +84,7 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     print("downloadind: "+jar_destination+latest_version.path_or_url_to_jar.split('/')[-1])
     open(jar_destination+latest_version.path_or_url_to_jar.split('/')[-1], "wb").write(file.content)
 
-def main(argv: list[str]):
+def main(argv: list[str] = sys.argv):
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +

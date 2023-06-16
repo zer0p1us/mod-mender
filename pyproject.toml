@@ -5,7 +5,7 @@ description = "Automated mod updater"
 authors = ["zer0p1us <42619260+zer0p1us@users.noreply.github.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "mod_mender"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"

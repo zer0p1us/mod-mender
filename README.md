@@ -17,5 +17,5 @@ poetry install
 ```
 Once all the depencies have been install run the following to run the actual program, still from the root of the repository (or change the path to the main file)
 ```bash
-poetry run python src/main.py
+poetry run python src/mod_mender/main.py
 ```

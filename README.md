@@ -24,3 +24,16 @@ Once all the depencies have been install run the following to run the actual pro
 ```bash
 poetry run python src/mod_mender/main.py
 ```
+
+#### Installing
+
+To create an installable build, run the following
+```bash
+poetry build
+```
+
+This will create a new dir called `dist` where a `tar.gz` and a `whl` files will be present, to install these packages call the following
+
+```bash
+pip install {path-to-build}
+```

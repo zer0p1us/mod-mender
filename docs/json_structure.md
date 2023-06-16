@@ -11,13 +11,15 @@ This documents the structure of the `JSON` file that contains the mods list
             "mod_name" : "name",
             "id" : "link",
             "platform": "modrinth",
-            "current_version" : ""
+            "current_version" : "",
+            "file": ""
         },
         {
             "mod_name" : "name",
             "url" : "link",
             "platform": "curseforge",
-            "current_version" : ""
+            "current_version" : "",
+            "file": ""
         }
     ]
 }
@@ -33,3 +35,4 @@ This documents the structure of the `JSON` file that contains the mods list
 - **id** (String): id of the mod to retrieve through modrinth, **Only for Modrinth**
 - **url** (String): Link to the mod page, **Only for CurseForge**
 - **current_version** (String): Version of the mod being using currently
+- **file** (String): Relative path to the mod file compared to json file

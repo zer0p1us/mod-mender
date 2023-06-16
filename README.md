@@ -38,6 +38,11 @@ This will create a new dir called `dist` where a `tar.gz` and a `whl` files will
 pip install {path-to-build}
 ```
 
+Now you can call it from the terminal with
+```bash
+mod-mender {file name}
+```
+
 ## Idiosyncrasies
 
 The `src` is structured as follows

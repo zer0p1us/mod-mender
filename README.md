@@ -37,3 +37,17 @@ This will create a new dir called `dist` where a `tar.gz` and a `whl` files will
 ```bash
 pip install {path-to-build}
 ```
+
+## Idiosyncrasies
+
+The `src` is structured as follows
+
+```
+src
+└── mod_mender
+    ├──main.py
+    ├──...
+    ├──...
+```
+
+This is due to how poetry creates builds, the "top" folder determines what the package folder will be called when installed. This means if the src was to be left as the "top" folder the package would be installed under `../site-packages/src`, needless to say this is just asking for trouble. So the `mod_mender` was neccessary as a stopgap, on the other hand why even bother to keep the src folder? **because I want to** and because it feels wrong to not have a src folder. Another details is that is has to be `mod_mender` rather than `mod-mender`; so far as I understand it, it's a result of `-` not being a value char in a python module name.

@@ -5,7 +5,7 @@ from typing import Dict
 import sys
 import os
 
-from mod import mod
+from .mod import mod
 
 def get_page(url: str) -> str:
     """

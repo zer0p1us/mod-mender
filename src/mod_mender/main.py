@@ -84,6 +84,14 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     print("downloadind: "+jar_destination+latest_version.path_or_url_to_jar.split('/')[-1])
     open(jar_destination+latest_version.path_or_url_to_jar.split('/')[-1], "wb").write(file.content)
 
+def update_json(updated_mod: mod, json_data: dict) -> dict:
+    """
+    @param updated_mod: mod with latest data
+    @param json_data: mod list data
+    @return updated json data
+    """
+    return json_data
+
 def main(argv: list[str] = sys.argv):
     print(
     "====================================================================================\n\n"+

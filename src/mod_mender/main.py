@@ -5,7 +5,13 @@ from typing import Dict
 import sys
 import os
 
-from .mod import mod
+try:
+    # relative import only works when installed as a module
+    from .mod import mod
+except ImportError:
+    # absolute import only works when run directly with python main.py
+    from mod import mod
+
 
 def get_page(url: str) -> str:
     """

@@ -6,4 +6,6 @@ class mod:
     latest_version: str
     url: str = ""
     path: str = ""
-    pass
+    
+    def get_url_filename(self) -> str:
+        return self.url.rsplit('/', 1)[0]

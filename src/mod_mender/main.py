@@ -125,11 +125,13 @@ def main(argv: list[str] = sys.argv):
         print("Couldn't open file")
         sys.exit(-1)
 
+    mods = mod_list_data["mods"]
+
     # for each mod check latest version available and download if newer
-    for i in mod_list_data.get("mods"):
-        if i["platform"] == "curseforge":
+    for index, item in enumerate(mods):
+        if item["platform"] == "curseforge":
            continue
-        current_mod = mod(name=i.get('id'), latest_version=i.get('current_version'), path_or_url_to_jar=i.get('file'))
+        current_mod = mod(name=item['id'], latest_version=item['current_version'], path_or_url_to_jar=item['file'])
         latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
         if (latest_mod.latest_version == current_mod.latest_version):
             print(f"no new updates for {current_mod.name}")

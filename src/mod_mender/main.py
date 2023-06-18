@@ -88,7 +88,7 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     if ((current_version.url == None) & (os.path.exists(jar_destination+current_version.path))): os.remove(jar_destination+current_version.path)
     file = requests.get(url=latest_version.url, stream=True)
     print("downloadind: "+latest_version.url.split('/')[-1])
-    open(jar_destination+latest_version.url.split('/')[-1], "wb").write(file.content)
+    open(jar_destination+latest_version.get_url_filename(), "wb").write(file.content)
 
 def update_json(updated_mod: mod, json_data: dict) -> dict:
     """

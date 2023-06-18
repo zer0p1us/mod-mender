@@ -98,6 +98,18 @@ def update_json(updated_mod: mod, json_data: dict) -> dict:
     """
     return json_data
 
+def get_mods_dir(path_to_modlist: str) -> str:
+    """
+    Return the directly to download mods
+    @param path_to_modlist: relative path to mod_list_file
+    @return path to download mods
+    """
+    # absolute paths
+    if (os.path.isabs(path_to_modlist)):
+        return path_to_modlist.rsplit('/', 1)[0] + '/'
+    # relative paths
+    return os.getcwd()+"/"+(path_to_modlist.split('/')[0]+'/' if path_to_modlist.__contains__('/') else "")
+
 def main(argv: list[str] = sys.argv):
     print(
     "====================================================================================\n\n"+
@@ -139,7 +151,7 @@ def main(argv: list[str] = sys.argv):
 
         # else new version available
         print(f"new available updates for {current_mod.name} from {current_mod.latest_version} -> {latest_mod.latest_version}")
-        update_jar(current_mod, latest_mod, argv[len(argv)-1].split('/')[0]+'/')
+        update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
     pass
 
 if __name__ == "__main__":

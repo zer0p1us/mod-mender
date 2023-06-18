@@ -8,4 +8,4 @@ class mod:
     path: str = ""
     
     def get_url_filename(self) -> str:
-        return self.url.rsplit('/', 1)[0]
+        return self.url.rsplit('/', 1)[1]

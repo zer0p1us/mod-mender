@@ -4,5 +4,6 @@ from dataclasses import dataclass
 class mod:
     name: str
     latest_version: str
-    path_or_url_to_jar: str
+    url: str = ""
+    path: str = ""
     pass

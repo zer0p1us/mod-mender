@@ -85,10 +85,10 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     @param latest_version: mod class of the latest data for mod
     @param jar_destination: path to where to download jar to
     """
-    if ((current_version.path_or_url_to_jar != "") & (os.path.exists(jar_destination+current_version.path_or_url_to_jar))): os.remove(jar_destination+current_version.path_or_url_to_jar)
-    file = requests.get(url=latest_version.path_or_url_to_jar, stream=True)
-    print("downloadind: "+jar_destination+latest_version.path_or_url_to_jar.split('/')[-1])
-    open(jar_destination+latest_version.path_or_url_to_jar.split('/')[-1], "wb").write(file.content)
+    if ((current_version.url == None) & (os.path.exists(jar_destination+current_version.path))): os.remove(jar_destination+current_version.path)
+    file = requests.get(url=latest_version.url, stream=True)
+    print("downloadind: "+latest_version.url.split('/')[-1])
+    open(jar_destination+latest_version.url.split('/')[-1], "wb").write(file.content)
 
 def update_json(updated_mod: mod, json_data: dict) -> dict:
     """
@@ -143,7 +143,7 @@ def main(argv: list[str] = sys.argv):
     for index, item in enumerate(mods):
         if item["platform"] == "curseforge":
            continue
-        current_mod = mod(name=item['id'], latest_version=item['current_version'], path_or_url_to_jar=item['file'])
+        current_mod = mod(name=item['id'], latest_version=item['current_version'], path=item['file'])
         latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
         if (latest_mod.latest_version == current_mod.latest_version):
             print(f"no new updates for {current_mod.name}")

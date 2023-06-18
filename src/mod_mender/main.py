@@ -138,7 +138,7 @@ def main(argv: list[str] = sys.argv):
             continue # no new update available
 
         # else new version available
-        print(f"new available updates for {current_mod.latest_version} from {current_mod.latest_version} -> {latest_mod.latest_version}")
+        print(f"new available updates for {current_mod.name} from {current_mod.latest_version} -> {latest_mod.latest_version}")
         update_jar(current_mod, latest_mod, argv[len(argv)-1].split('/')[0]+'/')
     pass
 

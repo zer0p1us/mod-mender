@@ -176,7 +176,10 @@ def main(argv: list[str] = sys.argv):
         update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
         mods[index] = update_json(latest_mod, item)
     
+    # save new mods_data
+    save_mods_list(get_path_dir(mod_list_file)+"old_"+mod_list_file.rsplit('/', 1)[1], mod_list_data)
     mod_list_data["mods"] = mods
+    save_mods_list(get_path_dir(mod_list_file)+ mod_list_file.rsplit('/', 1)[1], mod_list_data)
     pass
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mod-mender"
-version = "0.1.0"
+version = "0.1.1"
 description = "Automated mod updater"
 authors = ["zer0p1us <42619260+zer0p1us@users.noreply.github.com>"]
 license = "MIT"

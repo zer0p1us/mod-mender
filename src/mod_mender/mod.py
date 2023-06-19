@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import urllib.parse
 
 @dataclass
 class mod:
@@ -8,4 +9,4 @@ class mod:
     path: str = ""
     
     def get_url_filename(self) -> str:
-        return self.url.rsplit('/', 1)[1]
+        return urllib.parse.unquote(self.url.rsplit('/', 1)[1])

@@ -165,6 +165,9 @@ def main(argv: list[str] = sys.argv):
         # else new version available
         print(f"new available updates for {current_mod.name} from {current_mod.latest_version} -> {latest_mod.latest_version}")
         update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
+        mods[index] = update_json(latest_mod, item)
+    
+    mod_list_data["mods"] = mods
     pass
 
 if __name__ == "__main__":

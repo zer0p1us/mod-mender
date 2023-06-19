@@ -102,10 +102,13 @@ def get_path_dir(path: str) -> str:
 
 def update_json(updated_mod: mod, json_data: dict) -> dict:
     """
+    Update json file with new mod data
     @param updated_mod: mod with latest data
     @param json_data: mod list data
     @return updated json data
     """
+    json_data["current_version"] = updated_mod.latest_version
+    json_data["file"] = get_path_dir(json_data["file"]) + updated_mod.get_url_filename()
     return json_data
 
 def get_mods_dir(path_to_modlist: str) -> str:

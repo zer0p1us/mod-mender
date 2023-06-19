@@ -177,7 +177,7 @@ def main(argv: list[str] = sys.argv):
         mods[index] = update_json(latest_mod, item)
     
     # save new mods_data
-    save_mods_list(get_path_dir(mod_list_file)+"old_"+mod_list_file.rsplit('/', 1)[1], mod_list_data)
+    os.rename(mod_list_file, get_path_dir(mod_list_file) + "old_"+mod_list_file.rsplit('/', 1)[1])
     mod_list_data["mods"] = mods
     save_mods_list(get_path_dir(mod_list_file)+ mod_list_file.rsplit('/', 1)[1], mod_list_data)
     pass

@@ -160,6 +160,7 @@ def main(argv: list[str] = sys.argv):
         sys.exit(-1)
 
     mods = mod_list_data["mods"]
+    updated_mods = False
 
     # for each mod check latest version available and download if newer
     for index, item in enumerate(mods):
@@ -175,7 +176,10 @@ def main(argv: list[str] = sys.argv):
         print(f"new available updates for {current_mod.name} from {current_mod.latest_version} -> {latest_mod.latest_version}")
         update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
         mods[index] = update_json(latest_mod, item)
+        updated_mods = True
     
+    if not updated_mods: return
+
     # save new mods_data
     os.rename(mod_list_file, get_path_dir(mod_list_file) + "old_"+mod_list_file.rsplit('/', 1)[1])
     mod_list_data["mods"] = mods

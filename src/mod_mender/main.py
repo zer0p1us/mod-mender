@@ -90,6 +90,16 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     print("downloadind: "+latest_version.url.split('/')[-1])
     open(jar_destination+latest_version.get_url_filename(), "wb").write(file.content)
 
+def get_path_dir(path: str) -> str:
+    """
+    Return parent directory of a file
+    @pre: path must end in a file or be empty, it cannot be a dir itself otherwise it will return the parent directory of the directory
+    @param path: path to extract dir from
+    @return the dir of a path
+    """
+    # if there is '/' then split and return empty string is path is empty
+    return path.rsplit('/', 1)[0]+'/' if path.__contains__('/') else ""
+
 def update_json(updated_mod: mod, json_data: dict) -> dict:
     """
     @param updated_mod: mod with latest data
@@ -108,7 +118,7 @@ def get_mods_dir(path_to_modlist: str) -> str:
     if (os.path.isabs(path_to_modlist)):
         return path_to_modlist.rsplit('/', 1)[0] + '/'
     # relative paths
-    return os.getcwd()+"/"+(path_to_modlist.split('/')[0]+'/' if path_to_modlist.__contains__('/') else "")
+    return os.getcwd()+"/" + get_path_dir(path_to_modlist)
 
 def main(argv: list[str] = sys.argv):
     print(

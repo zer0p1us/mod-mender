@@ -174,6 +174,7 @@ def main(argv: list[str] = sys.argv):
 
         # else new version available
         print(f"new available updates for {current_mod.name} from {current_mod.latest_version} -> {latest_mod.latest_version}")
+        if (input("Would you like to update this mod [Y/n]?: ").lower() == 'n'): continue
         update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
         mods[index] = update_json(latest_mod, item)
         updated_mods = True

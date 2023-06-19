@@ -3,7 +3,7 @@
 Tool to automatically update a set of mods to a given version of minecraft.
 
 Supported platforms:
-- Modrinth (Coming soon 🕝)
+- Modrinth ✅
 - Github (Coming soon 🕝)
 - CurseForce (Coming soon 🕝)
 

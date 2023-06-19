@@ -54,6 +54,15 @@ def load_mods_list(path: str) -> Dict:
     file = open(path)
     return json.load(file)
 
+def save_mods_list(path: str, mod_list_data: dict):
+    """
+    Updates json file in path with new mod_list_data data
+    @param path: path to save json file to
+    @param mod_list_data: json object with new mod list data
+    """
+    file = open(path, "w")
+    json.dump(mod_list_data, file)
+    pass
 
 def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
     """

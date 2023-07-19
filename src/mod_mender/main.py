@@ -128,7 +128,7 @@ def get_mods_dir(path_to_modlist: str) -> str:
     """
     # absolute paths
     if (os.path.isabs(path_to_modlist)):
-        return path_to_modlist.rsplit('/', 1)[0] + '/'
+        return os.path.dirname(path_to_modlist) + '/'
     # relative paths
     return os.getcwd()+"/" + get_path_dir(path_to_modlist)
 
@@ -182,9 +182,9 @@ def main(argv: list[str] = sys.argv):
     if not updated_mods: return
 
     # save new mods_data
-    os.rename(mod_list_file, get_path_dir(mod_list_file) + "old_"+mod_list_file.rsplit('/', 1)[1])
+    os.rename(mod_list_file, get_path_dir(mod_list_file) + "old_"+os.path.basename(mod_list_file))
     mod_list_data["mods"] = mods
-    save_mods_list(get_path_dir(mod_list_file)+ mod_list_file.rsplit('/', 1)[1], mod_list_data)
+    save_mods_list(get_path_dir(mod_list_file)+ os.path.basename(mod_list_file), mod_list_data)
     pass
 
 if __name__ == "__main__":

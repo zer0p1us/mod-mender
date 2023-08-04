@@ -94,10 +94,10 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     @param latest_version: mod class of the latest data for mod
     @param jar_destination: path to where to download jar to
     """
-    if ((current_version.url != None) & (os.path.exists(jar_destination+current_version.path))): os.remove(jar_destination+current_version.path)
+    if ((current_version.url != None) & (os.path.exists(os.path.join(jar_destination,current_version.path)))): os.remove(os.path.join(jar_destination, current_version.path))
     file = requests.get(url=latest_version.url, stream=True)
     print("downloadind: "+latest_version.get_url_filename())
-    open(jar_destination+latest_version.get_url_filename(), "wb").write(file.content)
+    open(os.path.join(jar_destination, latest_version.get_url_filename()), "wb").write(file.content)
 
 def get_path_dir(path: str) -> str:
     """
@@ -107,7 +107,7 @@ def get_path_dir(path: str) -> str:
     @return the dir of a path
     """
     # if there is '/' then split and return empty string is path is empty
-    return path.rsplit('/', 1)[0]+'/' if path.__contains__('/') else ""
+    return path.rsplit('/', 1)[0] if path.__contains__('/') else ""
 
 def update_json(updated_mod: mod, json_data: dict) -> dict:
     """
@@ -128,7 +128,7 @@ def get_mods_dir(path_to_modlist: str) -> str:
     """
     # absolute paths
     if (os.path.isabs(path_to_modlist)):
-        return os.path.dirname(path_to_modlist) + '/'
+        return os.path.dirname(path_to_modlist)
     # relative paths
     return os.path.join(os.getcwd(), get_path_dir(path_to_modlist))
 

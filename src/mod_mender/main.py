@@ -182,7 +182,10 @@ def main(argv: list[str] = sys.argv):
     if not updated_mods: return
 
     # save new mods_data
-    os.rename(mod_list_file, get_path_dir(mod_list_file) + "old_"+os.path.basename(mod_list_file))
+    # if old copy of modlist exist delete it cuz os.rename will fail otherwise
+    path_to_backup_mod_list_file = os.path.join(os.path.dirname(mod_list_file), "old_"+os.path.basename(mod_list_file))
+    if (os.path.exists(path_to_backup_mod_list_file)): os.remove(path_to_backup_mod_list_file)
+    os.rename(mod_list_file, os.path.join(os.path.dirname(mod_list_file), "old_"+os.path.basename(mod_list_file)))
     mod_list_data["mods"] = mods
     save_mods_list(os.path.join(os.path.dirname(mod_list_file), os.path.basename(mod_list_file)), mod_list_data)
     pass

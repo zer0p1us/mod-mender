@@ -117,7 +117,7 @@ def update_json(updated_mod: mod, json_data: dict) -> dict:
     @return updated json data
     """
     json_data["current_version"] = updated_mod.latest_version
-    json_data["file"] = get_path_dir(json_data["file"]) + updated_mod.get_url_filename()
+    json_data["file"] = os.path.dirname(json_data["file"]) + updated_mod.get_url_filename()
     return json_data
 
 def get_mods_dir(path_to_modlist: str) -> str:
@@ -184,7 +184,7 @@ def main(argv: list[str] = sys.argv):
     # save new mods_data
     os.rename(mod_list_file, get_path_dir(mod_list_file) + "old_"+os.path.basename(mod_list_file))
     mod_list_data["mods"] = mods
-    save_mods_list(get_path_dir(mod_list_file)+ os.path.basename(mod_list_file), mod_list_data)
+    save_mods_list(os.path.join(os.path.dirname(mod_list_file), os.path.basename(mod_list_file)), mod_list_data)
     pass
 
 if __name__ == "__main__":

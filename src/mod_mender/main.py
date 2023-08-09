@@ -63,7 +63,6 @@ def save_mods_list(path: str, mod_list_data: dict):
     """
     with open(path, "w", encoding='utf8') as file:
         json.dump(mod_list_data, file)
-    pass
 
 def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
     """

@@ -194,4 +194,7 @@ def main(file: str):
     save_mods_list(os.path.join(os.path.dirname(mod_list_file), os.path.basename(mod_list_file)), mod_list_data)
 
 if __name__ == "__main__":
+    # pylint: disable=no-value-for-parameter
+    # because main is populated by `click`
+    # and pylint complains about the lack of parameters 
     main()

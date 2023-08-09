@@ -52,7 +52,7 @@ def load_mods_list(path: str) -> Dict:
     @param path: file path to the mod_list.json file
     @return: dictionary with the json content of mod_list.json
     """
-    with open(path) as file:
+    with open(path, 'r') as file:
         return json.load(file)
 
 def save_mods_list(path: str, mod_list_data: dict):

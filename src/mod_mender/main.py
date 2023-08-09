@@ -156,7 +156,7 @@ def main(argv: list[str] = sys.argv):
     try:
         mod_list_data = load_mods_list(mod_list_file)
     except Exception:
-        print("Couldn't open file")
+        print("Couldn't open {mod_list_file}")
         sys.exit(-1)
 
     mods = mod_list_data["mods"]

@@ -93,7 +93,7 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     @param latest_version: mod class of the latest data for mod
     @param jar_destination: path to where to download jar to
     """
-    if ((current_version.url != None) & (os.path.exists(os.path.join(jar_destination,current_version.path)))): os.remove(os.path.join(jar_destination, current_version.path))
+    if ((current_version.url is not None) & (os.path.exists(os.path.join(jar_destination,current_version.path)))): os.remove(os.path.join(jar_destination, current_version.path))
     file = requests.get(url=latest_version.url, stream=True)
     print("downloadind: "+latest_version.get_url_filename())
     open(os.path.join(jar_destination, latest_version.get_url_filename()), "wb").write(file.content)

@@ -10,7 +10,9 @@ scripts.mod-mender = "mod_mender.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+# used for http gets to download mod jars, api requests etc.
 requests = "^2.30.0"
+# terminal ui library, not used yet, might be removed if not used in ui refresh
 textual = {extras = ["dev"], version = "^0.26.0"}
 
 [build-system]

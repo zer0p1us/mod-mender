@@ -164,7 +164,7 @@ def main(argv: list[str] = sys.argv):
     # for each mod check latest version available and download if newer
     for index, item in enumerate(mods):
         if item["platform"] == "curseforge":
-           continue
+            continue
         current_mod = mod(name=item['id'], latest_version=item['current_version'], path=item['file'])
         latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
         if (latest_mod.latest_version == current_mod.latest_version):

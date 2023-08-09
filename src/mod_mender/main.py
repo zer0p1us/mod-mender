@@ -62,7 +62,7 @@ def save_mods_list(path: str, mod_list_data: dict):
     @param mod_list_data: json object with new mod list data
     """
     with open(path, "w", encoding='utf8') as file:
-        json.dump(mod_list_data, file)
+        json.dump(mod_list_data, file, indent=2)
 
 def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
     """

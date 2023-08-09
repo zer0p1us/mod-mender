@@ -5,6 +5,7 @@ import sys
 import os
 
 import requests
+import click
 
 try:
     # relative import only works when installed as a module

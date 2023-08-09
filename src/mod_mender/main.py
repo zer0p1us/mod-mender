@@ -133,7 +133,10 @@ def get_mods_dir(path_to_modlist: str) -> str:
     # relative paths
     return os.path.dirname(path_to_modlist)
 
-def main(argv: list[str] = sys.argv):
+@click.command()
+@click.argument("file", required=True, type=str)
+def main(file: str):
+    """File: Path to mod list"""
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +
@@ -149,10 +152,7 @@ def main(argv: list[str] = sys.argv):
     "====================================================================================")
     
     mod_list_data = {}
-    mod_list_file = ""
-
-    if len(argv) <= 1: mod_list_file = input("Please enter path of the file: ")
-    else: mod_list_file = argv[len(argv)-1]
+    mod_list_file = file
     
     try:
         mod_list_data = load_mods_list(mod_list_file)
@@ -194,4 +194,4 @@ def main(argv: list[str] = sys.argv):
     save_mods_list(os.path.join(os.path.dirname(mod_list_file), os.path.basename(mod_list_file)), mod_list_data)
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

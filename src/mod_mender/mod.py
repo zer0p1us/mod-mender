@@ -4,7 +4,7 @@ import urllib.parse
 @dataclass
 class mod:
     name: str
-    latest_version: str
+    version: str
     url: str = ""
     path: str = ""
     

@@ -78,7 +78,7 @@ def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> m
             continue
         if loader not in version["loaders"]:
             continue
-        if version["version_number"] == current_mod.latest_version:
+        if version["version_number"] == current_mod.version:
             return current_mod
         else:
             return mod(current_mod.name, version["version_number"], version["files"][0]["url"])
@@ -114,7 +114,7 @@ def update_json(updated_mod: mod, json_data: dict) -> dict:
     @param json_data: mod list data
     @return updated json data
     """
-    json_data["current_version"] = updated_mod.latest_version
+    json_data["current_version"] = updated_mod.version
     json_data["file"] = os.path.dirname(json_data["file"]) + updated_mod.get_url_filename()
     return json_data
 
@@ -164,14 +164,14 @@ def main(argv: list[str] = sys.argv):
     for index, item in enumerate(mods):
         if item["platform"] == "curseforge":
             continue
-        current_mod = mod(name=item['id'], latest_version=item['current_version'], path=item['file'])
+        current_mod = mod(name=item['id'], version=item['current_version'], path=item['file'])
         latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
-        if (latest_mod.latest_version == current_mod.latest_version):
+        if (latest_mod.version == current_mod.version):
             print(f"no new updates for {current_mod.name}")
             continue # no new update available
 
         # else new version available
-        print(f"new available updates for {current_mod.name} from {current_mod.latest_version} -> {latest_mod.latest_version}")
+        print(f"new available updates for {current_mod.name} from {current_mod.version} -> {latest_mod.version}")
         if (input("Would you like to update this mod [Y/n]?: ").lower() == 'n'): continue
         update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
         mods[index] = update_json(latest_mod, item)

@@ -186,7 +186,6 @@ def main(argv: list[str] = sys.argv):
     os.rename(mod_list_file, os.path.join(os.path.dirname(mod_list_file), "old_"+os.path.basename(mod_list_file)))
     mod_list_data["mods"] = mods
     save_mods_list(os.path.join(os.path.dirname(mod_list_file), os.path.basename(mod_list_file)), mod_list_data)
-    pass
 
 if __name__ == "__main__":
     main(sys.argv)

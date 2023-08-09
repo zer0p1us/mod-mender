@@ -31,7 +31,7 @@ def get_page(url: str) -> str:
 def modrinth_get(mod_id: str, loader: str, mc_version: str) -> str:
     """
     Makes a GET to modrinth api to get the latest version of a mod
-    @param mod_id: mod identifier
+    @param mod_id: mod identifier used by modrinth
     @param loader: minecraft mod loader
     @param mc_version: minecraft version
     @return: GET response

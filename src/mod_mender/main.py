@@ -20,7 +20,7 @@ def get_page(url: str) -> str:
     @param url: URL to request
     @return: html content
     """
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
 
     if response.status_code == 200:
         return response.text

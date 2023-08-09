@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-import requests
 import json
 from typing import Dict
 import sys
 import os
+
+import requests
 
 try:
     # relative import only works when installed as a module

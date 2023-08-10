@@ -149,9 +149,10 @@ def main(file: str):
     "                                                                                                 \n" +
     "By zer0p1us\n"+
     "====================================================================================")
-    
+
     mod_list_data = {}
     mod_list_file = file
+
     if mod_list_file is None: mod_list_file = input("Please enter path of the file: ")
 
     try:
@@ -182,7 +183,7 @@ def main(file: str):
         update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
         mods[index] = update_json(latest_mod, item)
         updated_mods = True
-    
+
     if not updated_mods: return
 
     # save new mods_data

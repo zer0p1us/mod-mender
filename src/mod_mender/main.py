@@ -196,5 +196,5 @@ def main(file: str):
 if __name__ == "__main__":
     # pylint: disable=no-value-for-parameter
     # because main is populated by `click`
-    # and pylint complains about the lack of parameters 
+    # and pylint complains about the lack of parameters
     main()

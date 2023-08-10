@@ -134,9 +134,8 @@ def get_mods_dir(path_to_modlist: str) -> str:
     return os.path.dirname(path_to_modlist)
 
 @click.command()
-@click.argument("file", required=True, type=str)
+@click.option("-f", "--file", type=str, help="path to mod list file")
 def main(file: str):
-    """File: Path to mod list"""
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +
@@ -153,7 +152,8 @@ def main(file: str):
     
     mod_list_data = {}
     mod_list_file = file
-    
+    if mod_list_file is None: mod_list_file = input("Please enter path of the file: ")
+
     try:
         mod_list_data = load_mods_list(mod_list_file)
     except FileNotFoundError:

@@ -155,8 +155,6 @@ def main(file: str, new_file: bool = False):
     mod_list_data = {}
     mod_list_file = file
 
-    if mod_list_file is None: mod_list_file = input("Please enter path of the file: ")
-
     try:
         mod_list_data = load_mods_list(mod_list_file)
     except FileNotFoundError:

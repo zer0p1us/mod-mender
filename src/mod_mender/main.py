@@ -134,9 +134,10 @@ def get_mods_dir(path_to_modlist: str) -> str:
     return os.path.dirname(path_to_modlist)
 
 @click.command()
-@click.option("-f", "--file", type=str, help="path to mod list file")
+@click.argument("file", required=True, type=str)
 @click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")
 def main(file: str, new_file: bool = False):
+    """Update mods in FILE"""
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +

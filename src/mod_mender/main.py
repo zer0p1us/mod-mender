@@ -135,7 +135,8 @@ def get_mods_dir(path_to_modlist: str) -> str:
 
 @click.command()
 @click.option("-f", "--file", type=str, help="path to mod list file")
-def main(file: str):
+@click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")
+def main(file: str, new_file: bool = False):
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +

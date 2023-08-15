@@ -147,6 +147,28 @@ def check_for_update(_mod: mod, mc_version: str, loader: str, platform_check: ca
     if (latest_mod.version == _mod.version): return {False, _mod} # no new update available
     return {True, latest_mod}
 
+def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[mod, int]]:
+    """
+    Check for updates for a given list of mods
+    @param mods: list of dictionaries containing mods details
+    @param mc_version: minecraft version to check updates for
+    @param loader: mod loader to for mods
+    @return list of lists, each inner list has a mod object that has an update with the latest data and an index of the mod data in mods
+    """
+    updates = []
+    for index, mod_json in enumerate(mods):
+        if mod_json["platform"] == "curseforge": continue
+
+        current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
+        latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loader)
+        if (latest_mod.version == current_mod.version):
+            continue # no new update available
+
+        # else new version available
+        print(f"new available updates for {current_mod.name} from {current_mod.version} -> {latest_mod.version}")
+        updates.append([latest_mod, index])
+    return updates
+
 def generate_mod_list(file:str):
     """
     Generate a new mod list json configuration

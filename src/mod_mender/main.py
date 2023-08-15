@@ -169,6 +169,7 @@ def main(file: str, new_file: bool = False):
 
     if (new_file):
         generate_mod_list(file)
+        sys.exit(0)
     
     mod_list_data = {}
     mod_list_file = file

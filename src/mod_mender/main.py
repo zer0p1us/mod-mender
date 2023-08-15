@@ -133,6 +133,21 @@ def get_mods_dir(path_to_modlist: str) -> str:
     # relative paths
     return os.path.dirname(path_to_modlist)
 
+def generate_mod_list(file:str):
+    """
+    Generate a new mod list json configuration
+    @param file: path to json file to be generated
+    """
+    mc_version = input("Minecraft version you're targeting: ")
+    loader = input("Mod loader you're targeting: ")
+    json_schema = {
+        "mc_version": mc_version,
+        "loader": loader,
+        "mod": [{}]
+    }
+    with open(file, "w", encoding="utf8") as mod_list_file:
+        json.dump(json_schema, mod_list_file, indent=2)
+
 @click.command()
 @click.argument("file", required=True, type=click.Path())
 @click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")

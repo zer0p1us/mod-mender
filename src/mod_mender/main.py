@@ -222,14 +222,23 @@ def main(file: str, update_to: str, new_file: bool = False):
 
     mods = mod_list_data["mods"] if mod_list_data["mods"] != [{}] else sys.exit(-1)
 
-    available_updates = check_for_updates(mods, mod_list_data['minecraft_version'], mod_list_data['loader'])
+    minecraft_version = mod_list_data['minecraft_version']
+
+    # if the -u option has been given change the minecraft version being checked for
+    if (update_to is not None): minecraft_version = update_to
+
+    available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loader'])
 
     if available_updates == []:
-        print(f"No available updates for any mod on {mod_list_data['minecraft_version']}")
+        print(f"No available updates for any mod on {minecraft_version}")
         sys.exit(0)
     
     # ask if the of the mods should be updated
     if (input("Would you like to update the [Y/n]").lower() == 'n'): sys.exit(0)
+
+    # if the mods have been updated to a newer version of minecraft update the `minecraft_version` on the mod list file
+    if minecraft_version != mod_list_data["minecraft_version"]:
+        mod_list_data["minecraft_version"] = minecraft_version
 
     for latest_mod, index in available_updates:
         current_mod_json = mods[index]

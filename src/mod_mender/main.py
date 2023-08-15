@@ -141,7 +141,7 @@ def generate_mod_list(file:str):
     mc_version = input("Minecraft version you're targeting: ")
     loader = input("Mod loader you're targeting: ")
     json_schema = {
-        "mc_version": mc_version,
+        "minecraft_version": mc_version,
         "loader": loader,
         "mods": [{}]
     }

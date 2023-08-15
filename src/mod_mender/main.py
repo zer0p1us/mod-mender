@@ -221,26 +221,21 @@ def main(file: str, update_to: str, new_file: bool = False):
         sys.exit(-1)
 
     mods = mod_list_data["mods"] if mod_list_data["mods"] != [{}] else sys.exit(-1)
-    updated_mods = False
 
-    # for each mod check latest version available and download if newer
-    for index, item in enumerate(mods):
-        if item["platform"] == "curseforge":
-            continue
-        current_mod = mod(name=item['id'], version=item['current_version'], path=item['file'])
-        latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
-        if (latest_mod.version == current_mod.version):
-            print(f"no new updates for {current_mod.name}")
-            continue # no new update available
+    available_updates = check_for_updates(mods, mod_list_data['minecraft_version'], mod_list_data['loader'])
 
-        # else new version available
-        print(f"new available updates for {current_mod.name} from {current_mod.version} -> {latest_mod.version}")
-        if (input("Would you like to update this mod [Y/n]?: ").lower() == 'n'): continue
-        update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
-        mods[index] = update_json(latest_mod, item)
-        updated_mods = True
+    if available_updates == []:
+        print(f"No available updates for any mod on {mod_list_data['minecraft_version']}")
+        sys.exit(0)
+    
+    # ask if the of the mods should be updated
+    if (input("Would you like to update the [Y/n]").lower() == 'n'): sys.exit(0)
 
-    if not updated_mods: return
+    for latest_mod, index in available_updates:
+        current_mod_json = mods[index]
+        current_mod = mod(name=latest_mod.name, version=current_mod_json["current_version"], path=current_mod_json['file'])
+        update_jar(current_version=current_mod, latest_version=latest_mod, jar_destination=get_mods_dir(mod_list_file))
+        mods[index] = update_json(latest_mod, current_mod_json)
 
     # save new mods_data
     # if old copy of modlist exist delete it cuz os.rename will fail otherwise

@@ -133,6 +133,42 @@ def get_mods_dir(path_to_modlist: str) -> str:
     # relative paths
     return os.path.dirname(path_to_modlist)
 
+
+def check_for_update(_mod: mod, mc_version: str, loader: str, platform_check: callable) -> {bool, mod}:
+    """
+    Check if there are any updates for a given mod
+    @param mod: mod object with mod details
+    @param mc_version: minecraft version being targeted
+    @param loader: mod loader being targeted
+    @param platform_check: function for the mod platform to check for updates, will return a mod object of the lastest mod
+    @return dictionary of a boolean indicating if there is an update and a mod object with latest details
+    """
+    latest_mod = platform_check(_mod, mc_version, loader)
+    if (latest_mod.version == _mod.version): return {False, _mod} # no new update available
+    return {True, latest_mod}
+
+def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[mod, int]]:
+    """
+    Check for updates for a given list of mods
+    @param mods: list of dictionaries containing mods details
+    @param mc_version: minecraft version to check updates for
+    @param loader: mod loader to for mods
+    @return list of lists, each inner list has a mod object that has an update with the latest data and an index of the mod data in mods
+    """
+    updates = []
+    for index, mod_json in enumerate(mods):
+        if mod_json["platform"] == "curseforge": continue
+
+        current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
+        latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loader)
+        if (latest_mod.version == current_mod.version):
+            continue # no new update available
+
+        # else new version available
+        print(f"new available updates for {current_mod.name} from {current_mod.version} -> {latest_mod.version}")
+        updates.append([latest_mod, index])
+    return updates
+
 def generate_mod_list(file:str):
     """
     Generate a new mod list json configuration
@@ -151,7 +187,8 @@ def generate_mod_list(file:str):
 @click.command()
 @click.argument("file", required=True, type=click.Path())
 @click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")
-def main(file: str, new_file: bool = False):
+@click.option("-u", "--update-to", type=str, help="Check if updating to a minecraft version is possible")
+def main(file: str, update_to: str, new_file: bool = False):
     """Update mods in FILE"""
     print(
     "====================================================================================\n\n"+
@@ -184,26 +221,30 @@ def main(file: str, new_file: bool = False):
         sys.exit(-1)
 
     mods = mod_list_data["mods"] if mod_list_data["mods"] != [{}] else sys.exit(-1)
-    updated_mods = False
 
-    # for each mod check latest version available and download if newer
-    for index, item in enumerate(mods):
-        if item["platform"] == "curseforge":
-            continue
-        current_mod = mod(name=item['id'], version=item['current_version'], path=item['file'])
-        latest_mod = modrinth_get_latest_mod(current_mod, str(mod_list_data.get('minecraft_version')), str(mod_list_data.get('loader')))
-        if (latest_mod.version == current_mod.version):
-            print(f"no new updates for {current_mod.name}")
-            continue # no new update available
+    minecraft_version = mod_list_data['minecraft_version']
 
-        # else new version available
-        print(f"new available updates for {current_mod.name} from {current_mod.version} -> {latest_mod.version}")
-        if (input("Would you like to update this mod [Y/n]?: ").lower() == 'n'): continue
-        update_jar(current_mod, latest_mod, get_mods_dir(mod_list_file))
-        mods[index] = update_json(latest_mod, item)
-        updated_mods = True
+    # if the -u option has been given change the minecraft version being checked for
+    if (update_to is not None): minecraft_version = update_to
 
-    if not updated_mods: return
+    available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loader'])
+
+    if available_updates == []:
+        print(f"No available updates for any mod on {minecraft_version}")
+        sys.exit(0)
+    
+    # ask if the of the mods should be updated
+    if (input("Would you like to update the [Y/n]").lower() == 'n'): sys.exit(0)
+
+    # if the mods have been updated to a newer version of minecraft update the `minecraft_version` on the mod list file
+    if minecraft_version != mod_list_data["minecraft_version"]:
+        mod_list_data["minecraft_version"] = minecraft_version
+
+    for latest_mod, index in available_updates:
+        current_mod_json = mods[index]
+        current_mod = mod(name=latest_mod.name, version=current_mod_json["current_version"], path=current_mod_json['file'])
+        update_jar(current_version=current_mod, latest_version=latest_mod, jar_destination=get_mods_dir(mod_list_file))
+        mods[index] = update_json(latest_mod, current_mod_json)
 
     # save new mods_data
     # if old copy of modlist exist delete it cuz os.rename will fail otherwise

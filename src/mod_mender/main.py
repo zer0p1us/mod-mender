@@ -167,6 +167,9 @@ def main(file: str, new_file: bool = False):
     "By zer0p1us\n"+
     "====================================================================================")
 
+    if (new_file):
+        generate_mod_list(file)
+    
     mod_list_data = {}
     mod_list_file = file
 

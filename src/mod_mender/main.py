@@ -134,7 +134,7 @@ def get_mods_dir(path_to_modlist: str) -> str:
     return os.path.dirname(path_to_modlist)
 
 @click.command()
-@click.argument("file", required=True, type=click.Path(exists=True))
+@click.argument("file", required=True, type=click.Path())
 @click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")
 def main(file: str, new_file: bool = False):
     """Update mods in FILE"""
@@ -157,6 +157,9 @@ def main(file: str, new_file: bool = False):
 
     try:
         mod_list_data = load_mods_list(mod_list_file)
+    except FileNotFoundError:
+        print("Couldn't find {mod_list_file}")
+        sys.exit(-1)
     except Exception:
         print("Couldn't open {mod_list_file}")
         sys.exit(-1)

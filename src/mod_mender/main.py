@@ -63,7 +63,7 @@ def save_mods_list(path: str, mod_list_data: dict):
     @param mod_list_data: json object with new mod list data
     """
     with open(path, "w", encoding='utf8') as file:
-        json.dump(mod_list_data, file, indent=2)
+        json.dump(mod_list_data, file, indent=4)
 
 def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
     """
@@ -133,9 +133,26 @@ def get_mods_dir(path_to_modlist: str) -> str:
     # relative paths
     return os.path.dirname(path_to_modlist)
 
+def generate_mod_list(file:str):
+    """
+    Generate a new mod list json configuration
+    @param file: path to json file to be generated
+    """
+    mc_version = input("Minecraft version you're targeting: ")
+    loader = input("Mod loader you're targeting: ")
+    json_schema = {
+        "mc_version": mc_version,
+        "loader": loader,
+        "mods": [{}]
+    }
+    with open(file, "w", encoding="utf8") as mod_list_file:
+        json.dump(json_schema, mod_list_file, indent=4)
+
 @click.command()
-@click.option("-f", "--file", type=str, help="path to mod list file")
-def main(file: str):
+@click.argument("file", required=True, type=click.Path())
+@click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")
+def main(file: str, new_file: bool = False):
+    """Update mods in FILE"""
     print(
     "====================================================================================\n\n"+
     "                                ▄▄                                           ▄▄                  \n" +
@@ -150,10 +167,12 @@ def main(file: str):
     "By zer0p1us\n"+
     "====================================================================================")
 
+    if (new_file):
+        generate_mod_list(file)
+        sys.exit(0)
+    
     mod_list_data = {}
     mod_list_file = file
-
-    if mod_list_file is None: mod_list_file = input("Please enter path of the file: ")
 
     try:
         mod_list_data = load_mods_list(mod_list_file)
@@ -164,7 +183,7 @@ def main(file: str):
         print("Couldn't open {mod_list_file}")
         sys.exit(-1)
 
-    mods = mod_list_data["mods"]
+    mods = mod_list_data["mods"] if mod_list_data["mods"] != [{}] else sys.exit(-1)
     updated_mods = False
 
     # for each mod check latest version available and download if newer

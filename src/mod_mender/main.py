@@ -143,7 +143,7 @@ def generate_mod_list(file:str):
     json_schema = {
         "mc_version": mc_version,
         "loader": loader,
-        "mod": [{}]
+        "mods": [{}]
     }
     with open(file, "w", encoding="utf8") as mod_list_file:
         json.dump(json_schema, mod_list_file, indent=2)

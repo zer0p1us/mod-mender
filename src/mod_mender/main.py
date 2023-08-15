@@ -151,7 +151,8 @@ def generate_mod_list(file:str):
 @click.command()
 @click.argument("file", required=True, type=click.Path())
 @click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")
-def main(file: str, new_file: bool = False):
+@click.option("-u", "--update-to", type=str, help="Check if updating to a minecraft version is possible")
+def main(file: str, update_to: str, new_file: bool = False):
     """Update mods in FILE"""
     print(
     "====================================================================================\n\n"+

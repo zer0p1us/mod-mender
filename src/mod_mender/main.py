@@ -183,7 +183,7 @@ def main(file: str, new_file: bool = False):
         print("Couldn't open {mod_list_file}")
         sys.exit(-1)
 
-    mods = mod_list_data["mods"]
+    mods = mod_list_data["mods"] if mod_list_data["mods"] != [{}] else sys.exit(-1)
     updated_mods = False
 
     # for each mod check latest version available and download if newer

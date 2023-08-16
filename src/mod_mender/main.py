@@ -188,6 +188,7 @@ def strip_mod_details(mod_json: dict) -> dict:
     """
     Remove version and jar file details from a mod's json data
     @param mod_json: json data for a mod to be striped
+    @return dict with striped json data
     """
     mod_json["current_version"] = ""
     mod_json["file"] = ""

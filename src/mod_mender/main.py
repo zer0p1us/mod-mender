@@ -184,6 +184,13 @@ def generate_mod_list(file:str):
     with open(file, "w", encoding="utf8") as mod_list_file:
         json.dump(json_schema, mod_list_file, indent=4)
 
+def strip_mod_details(mod_json: dict) -> dict:
+    """
+    Remove version and jar file details from a mod's json data
+    @param mod_json: json data for a mod to be striped
+    """
+    return {}
+
 @click.command()
 @click.argument("file", required=True, type=click.Path())
 @click.option("-nf", "--new-file", flag_value=True, help="Generate a new modlist file")

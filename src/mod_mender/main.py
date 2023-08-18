@@ -249,6 +249,11 @@ def main(file: str, update_to: str, new_file: bool = False):
     # if the mods have been updated to a newer version of minecraft update the `minecraft_version` on the mod list file
     if minecraft_version != mod_list_data["minecraft_version"]:
         mod_list_data["minecraft_version"] = minecraft_version
+        supported_mods = [update_index[1] for update_index in available_updates]
+        unsupported_mods = [update_index for update_index in range(len(mods)) if update_index not in supported_mods]
+        # empty `verion` & `file` properties for mods that can't be updated to newer minecraft version
+        for unsupported_mod in unsupported_mods:
+            mods[unsupported_mod] = strip_mod_details(mods[unsupported_mod])
 
     for latest_mod, index in available_updates:
         current_mod_json = mods[index]

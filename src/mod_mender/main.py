@@ -65,19 +65,19 @@ def save_mods_list(path: str, mod_list_data: dict):
     with open(path, "w", encoding='utf8') as file:
         json.dump(mod_list_data, file, indent=4)
 
-def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: [str]) -> mod:
+def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str]) -> mod:
     """
     Get the latest version of a mod for a specific minecraft version
     @param id: path to the list of mod versions
     @param current_mod_version: current version name of the mod
     @param mc_version: minecraft version needed
-    @param loader: mod loader to target
+    @param loaders: list of mod loaders to target
     """
-    modrinth_data = modrinth_get(current_mod.name, loader, mc_version)
+    modrinth_data = modrinth_get(current_mod.name, loaders, mc_version)
     for version in modrinth_data:
         if mc_version not in version["game_versions"]:
             continue
-        if not any(x in loader for x in version["loaders"]):
+        if not any(x in loaders for x in version["loaders"]):
             continue
         if version["version_number"] == current_mod.version:
             return current_mod

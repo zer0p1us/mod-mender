@@ -28,7 +28,7 @@ This documents the structure of the `JSON` file that contains the mods list
 ## Properties
 
 **minecraft_version** (String): Indicate the minecraft version of that is being targetted by the mod list
-**loader** (List of Strings): Indicate the mod loaders that the mod list is using, it needs to be a list because some mods only specify one the base loader and not the forks
+**loaders** (List of Strings): Indicate the mod loaders that the mod list is using, it needs to be a list because some mods only specify one the base loader and not the forks
 **mods** (List): List of mods that are part of the mod list, each list element has the following
 - **mod_name** (String): Name of the mod
 - **platform** (String): the platform the mod is hosted on

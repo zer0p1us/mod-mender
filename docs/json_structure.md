@@ -5,7 +5,7 @@ This documents the structure of the `JSON` file that contains the mods list
 ```JSON
 {
     "minecraft_version" : "1.19.4",
-    "loader": ["quilt", "fabric"],
+    "loaders": ["quilt", "fabric"],
     "mods" : [
         {
             "mod_name" : "name",

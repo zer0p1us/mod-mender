@@ -238,7 +238,7 @@ def main(file: str, update_to: str, new_file: bool = False):
     # if the -u option has been given change the minecraft version being checked for
     if (update_to is not None): minecraft_version = update_to
 
-    available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loader'])
+    available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loaders'])
 
     if not available_updates:
         print(f"No available updates for any mod on {minecraft_version}")

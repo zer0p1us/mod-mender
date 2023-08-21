@@ -162,6 +162,7 @@ def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[m
         current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
         latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loader)
         if (latest_mod.version == current_mod.version):
+            print(f"no update possible for {current_mod.name} for {mc_version}")
             continue # no new update available
 
         # else new version available
@@ -183,6 +184,16 @@ def generate_mod_list(file:str):
     }
     with open(file, "w", encoding="utf8") as mod_list_file:
         json.dump(json_schema, mod_list_file, indent=4)
+
+def strip_mod_details(mod_json: dict) -> dict:
+    """
+    Remove version and jar file details from a mod's json data
+    @param mod_json: json data for a mod to be striped
+    @return dict with striped json data
+    """
+    mod_json["current_version"] = ""
+    mod_json["file"] = ""
+    return mod_json
 
 @click.command()
 @click.argument("file", required=True, type=click.Path())
@@ -229,7 +240,7 @@ def main(file: str, update_to: str, new_file: bool = False):
 
     available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loader'])
 
-    if available_updates == []:
+    if not available_updates:
         print(f"No available updates for any mod on {minecraft_version}")
         sys.exit(0)
     
@@ -239,6 +250,11 @@ def main(file: str, update_to: str, new_file: bool = False):
     # if the mods have been updated to a newer version of minecraft update the `minecraft_version` on the mod list file
     if minecraft_version != mod_list_data["minecraft_version"]:
         mod_list_data["minecraft_version"] = minecraft_version
+        supported_mods = [update_index[1] for update_index in available_updates]
+        unsupported_mods = [update_index for update_index in range(len(mods)) if update_index not in supported_mods]
+        # empty `verion` & `file` properties for mods that can't be updated to newer minecraft version
+        for unsupported_mod in unsupported_mods:
+            mods[unsupported_mod] = strip_mod_details(mods[unsupported_mod])
 
     for latest_mod, index in available_updates:
         current_mod_json = mods[index]

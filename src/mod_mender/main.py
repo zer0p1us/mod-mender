@@ -86,6 +86,16 @@ def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str]) -
 
     return current_mod
 
+def curseforge_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str]) -> mod:
+    """
+    Get the latest version of a mod for a specific minecraft version
+    @param id: path to the list of mod versions
+    @param current_mod_version: current version name of the mod
+    @param mc_version: minecraft version needed
+    @param loaders: list of mod loaders to target
+    """
+    return current_mod
+
 def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     """
     Remove old jar file and download new one

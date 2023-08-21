@@ -29,7 +29,7 @@ def get_page(url: str) -> str:
         print(f"Error retrieving webpage. Status code: {response.status_code}")
         return ""
 
-def modrinth_get(mod_id: str, loader: str, mc_version: str) -> str:
+def modrinth_get(mod_id: str, loader: [str], mc_version: str) -> str:
     """
     Makes a GET to modrinth api to get the latest version of a mod
     @param mod_id: mod identifier used by modrinth
@@ -37,7 +37,7 @@ def modrinth_get(mod_id: str, loader: str, mc_version: str) -> str:
     @param mc_version: minecraft version
     @return: GET response
     """
-    params = {'loaders': "[\""+loader+"\"]", 'game_versions': "[\""+mc_version+"\"]"}
+    params = {'loaders': "[\""+"\", \"".join(loader)+"\"]", 'game_versions': "[\""+mc_version+"\"]"}
     response = requests.get(url=f'https://api.modrinth.com/v2/project/{mod_id}/version', params=params, timeout=10)
 
     if response.status_code == 200:
@@ -65,7 +65,7 @@ def save_mods_list(path: str, mod_list_data: dict):
     with open(path, "w", encoding='utf8') as file:
         json.dump(mod_list_data, file, indent=4)
 
-def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
+def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: [str]) -> mod:
     """
     Get the latest version of a mod for a specific minecraft version
     @param id: path to the list of mod versions
@@ -147,7 +147,7 @@ def check_for_update(_mod: mod, mc_version: str, loader: str, platform_check: ca
     if (latest_mod.version == _mod.version): return {False, _mod} # no new update available
     return {True, latest_mod}
 
-def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[mod, int]]:
+def check_for_updates(mods: list[dict], mc_version: str, loader: [str]) -> list[[mod, int]]:
     """
     Check for updates for a given list of mods
     @param mods: list of dictionaries containing mods details

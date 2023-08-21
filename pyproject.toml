@@ -16,6 +16,7 @@ requests = "^2.30.0"
 textual = {extras = ["dev"], version = "^0.26.0"}
 # for command line parsing of params
 click = "^8.1.6"
+bs4 = "^0.0.1"
 
 [build-system]
 requires = ["poetry-core"]

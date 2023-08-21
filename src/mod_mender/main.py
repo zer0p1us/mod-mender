@@ -134,16 +134,16 @@ def get_mods_dir(path_to_modlist: str) -> str:
     return os.path.dirname(path_to_modlist)
 
 
-def check_for_update(_mod: mod, mc_version: str, loader: str, platform_check: callable) -> {bool, mod}:
+def check_for_update(_mod: mod, mc_version: str, loaders: str, platform_check: callable) -> {bool, mod}:
     """
     Check if there are any updates for a given mod
     @param mod: mod object with mod details
     @param mc_version: minecraft version being targeted
-    @param loader: mod loader being targeted
+    @param loaders: list of mod loaders being targeted
     @param platform_check: function for the mod platform to check for updates, will return a mod object of the lastest mod
     @return dictionary of a boolean indicating if there is an update and a mod object with latest details
     """
-    latest_mod = platform_check(_mod, mc_version, loader)
+    latest_mod = platform_check(_mod, mc_version, loaders)
     if (latest_mod.version == _mod.version): return {False, _mod} # no new update available
     return {True, latest_mod}
 

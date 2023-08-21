@@ -167,10 +167,17 @@ def check_for_updates(mods: list[dict], mc_version: str, loaders: [str]) -> list
     """
     updates = []
     for index, mod_json in enumerate(mods):
-        if mod_json["platform"] == "curseforge": continue
+        match mod_json["platform"].lower():
+            case "modrinth":
+                get_latest_mod = modrinth_get_latest_mod
+            case "curseforge":
+                get_latest_mod = curseforge_get_latest_mod
+            case _:
+                print(f"Unsopported or misspelled mod platform {mod_json['platform']}")
+                continue
 
         current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
-        latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loaders)
+        latest_mod = get_latest_mod(current_mod, mc_version, loaders)
         if (latest_mod.version == current_mod.version):
             print(f"no update possible for {current_mod.name} for {mc_version}")
             continue # no new update available

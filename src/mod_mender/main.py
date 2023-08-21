@@ -239,7 +239,7 @@ def main(file: str, update_to: str, new_file: bool = False):
 
     available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loader'])
 
-    if available_updates == []:
+    if not available_updates:
         print(f"No available updates for any mod on {minecraft_version}")
         sys.exit(0)
     

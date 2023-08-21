@@ -77,7 +77,7 @@ def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: [str]) ->
     for version in modrinth_data:
         if mc_version not in version["game_versions"]:
             continue
-        if loader not in version["loaders"]:
+        if not any(x in loader for x in version["loaders"]):
             continue
         if version["version_number"] == current_mod.version:
             return current_mod

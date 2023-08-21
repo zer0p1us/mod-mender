@@ -29,15 +29,15 @@ def get_page(url: str) -> str:
         print(f"Error retrieving webpage. Status code: {response.status_code}")
         return ""
 
-def modrinth_get(mod_id: str, loader: str, mc_version: str) -> str:
+def modrinth_get(mod_id: str, loaders: [str], mc_version: str) -> str:
     """
     Makes a GET to modrinth api to get the latest version of a mod
     @param mod_id: mod identifier used by modrinth
-    @param loader: minecraft mod loader
+    @param loaders: minecraft mod loaders
     @param mc_version: minecraft version
     @return: GET response
     """
-    params = {'loaders': "[\""+loader+"\"]", 'game_versions': "[\""+mc_version+"\"]"}
+    params = {'loaders': "[\""+"\", \"".join(loaders)+"\"]", 'game_versions': "[\""+mc_version+"\"]"}
     response = requests.get(url=f'https://api.modrinth.com/v2/project/{mod_id}/version', params=params, timeout=10)
 
     if response.status_code == 200:
@@ -65,19 +65,19 @@ def save_mods_list(path: str, mod_list_data: dict):
     with open(path, "w", encoding='utf8') as file:
         json.dump(mod_list_data, file, indent=4)
 
-def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loader: str) -> mod:
+def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str]) -> mod:
     """
     Get the latest version of a mod for a specific minecraft version
     @param id: path to the list of mod versions
     @param current_mod_version: current version name of the mod
     @param mc_version: minecraft version needed
-    @param loader: mod loader to target
+    @param loaders: list of mod loaders to target
     """
-    modrinth_data = modrinth_get(current_mod.name, loader, mc_version)
+    modrinth_data = modrinth_get(current_mod.name, loaders, mc_version)
     for version in modrinth_data:
         if mc_version not in version["game_versions"]:
             continue
-        if loader not in version["loaders"]:
+        if not any(x in loaders for x in version["loaders"]):
             continue
         if version["version_number"] == current_mod.version:
             return current_mod
@@ -134,25 +134,25 @@ def get_mods_dir(path_to_modlist: str) -> str:
     return os.path.dirname(path_to_modlist)
 
 
-def check_for_update(_mod: mod, mc_version: str, loader: str, platform_check: callable) -> {bool, mod}:
+def check_for_update(_mod: mod, mc_version: str, loaders: str, platform_check: callable) -> {bool, mod}:
     """
     Check if there are any updates for a given mod
     @param mod: mod object with mod details
     @param mc_version: minecraft version being targeted
-    @param loader: mod loader being targeted
+    @param loaders: list of mod loaders being targeted
     @param platform_check: function for the mod platform to check for updates, will return a mod object of the lastest mod
     @return dictionary of a boolean indicating if there is an update and a mod object with latest details
     """
-    latest_mod = platform_check(_mod, mc_version, loader)
+    latest_mod = platform_check(_mod, mc_version, loaders)
     if (latest_mod.version == _mod.version): return {False, _mod} # no new update available
     return {True, latest_mod}
 
-def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[mod, int]]:
+def check_for_updates(mods: list[dict], mc_version: str, loaders: [str]) -> list[[mod, int]]:
     """
     Check for updates for a given list of mods
     @param mods: list of dictionaries containing mods details
     @param mc_version: minecraft version to check updates for
-    @param loader: mod loader to for mods
+    @param loaders: list of mod loaders to for mods
     @return list of lists, each inner list has a mod object that has an update with the latest data and an index of the mod data in mods
     """
     updates = []
@@ -160,7 +160,7 @@ def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[m
         if mod_json["platform"] == "curseforge": continue
 
         current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
-        latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loader)
+        latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loaders)
         if (latest_mod.version == current_mod.version):
             print(f"no update possible for {current_mod.name} for {mc_version}")
             continue # no new update available
@@ -176,10 +176,10 @@ def generate_mod_list(file:str):
     @param file: path to json file to be generated
     """
     mc_version = input("Minecraft version you're targeting: ")
-    loader = input("Mod loader you're targeting: ")
+    loaders = input("Mod loaders you're targeting (seperate with a (,) if multiple): ").replace(' ', '').split(",")
     json_schema = {
         "minecraft_version": mc_version,
-        "loader": loader,
+        "loaders": loaders,
         "mods": [{}]
     }
     with open(file, "w", encoding="utf8") as mod_list_file:
@@ -238,7 +238,7 @@ def main(file: str, update_to: str, new_file: bool = False):
     # if the -u option has been given change the minecraft version being checked for
     if (update_to is not None): minecraft_version = update_to
 
-    available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loader'])
+    available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loaders'])
 
     if not available_updates:
         print(f"No available updates for any mod on {minecraft_version}")

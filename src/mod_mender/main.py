@@ -162,6 +162,7 @@ def check_for_updates(mods: list[dict], mc_version: str, loader: str) -> list[[m
         current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
         latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loader)
         if (latest_mod.version == current_mod.version):
+            print(f"no update possible for {current_mod.name} for {mc_version}")
             continue # no new update available
 
         # else new version available

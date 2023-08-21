@@ -1,6 +1,9 @@
-# mod-mender 🔨
-
-Tool to automatically update a set of mods to a given version of minecraft.
+<h1 align="center">
+    mod-mender 🔨
+</h1>
+<p align="center">
+    Tool to automatically update a set of mods to a given version of minecraft.
+</p>
 
 Supported platforms:
 - Modrinth ✅

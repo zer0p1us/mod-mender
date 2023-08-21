@@ -176,10 +176,10 @@ def generate_mod_list(file:str):
     @param file: path to json file to be generated
     """
     mc_version = input("Minecraft version you're targeting: ")
-    loader = input("Mod loader you're targeting: ")
+    loaders = input("Mod loaders you're targeting (seperate with a (,) if multiple): ").replace(' ', '').split(",")
     json_schema = {
         "minecraft_version": mc_version,
-        "loader": loader,
+        "loaders": loaders,
         "mods": [{}]
     }
     with open(file, "w", encoding="utf8") as mod_list_file:

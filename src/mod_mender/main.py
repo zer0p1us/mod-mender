@@ -29,15 +29,15 @@ def get_page(url: str) -> str:
         print(f"Error retrieving webpage. Status code: {response.status_code}")
         return ""
 
-def modrinth_get(mod_id: str, loader: [str], mc_version: str) -> str:
+def modrinth_get(mod_id: str, loaders: [str], mc_version: str) -> str:
     """
     Makes a GET to modrinth api to get the latest version of a mod
     @param mod_id: mod identifier used by modrinth
-    @param loader: minecraft mod loader
+    @param loaders: minecraft mod loaders
     @param mc_version: minecraft version
     @return: GET response
     """
-    params = {'loaders': "[\""+"\", \"".join(loader)+"\"]", 'game_versions': "[\""+mc_version+"\"]"}
+    params = {'loaders': "[\""+"\", \"".join(loaders)+"\"]", 'game_versions': "[\""+mc_version+"\"]"}
     response = requests.get(url=f'https://api.modrinth.com/v2/project/{mod_id}/version', params=params, timeout=10)
 
     if response.status_code == 200:

@@ -6,6 +6,7 @@ import os
 
 import requests
 import click
+from bs4 import BeautifulSoup
 
 try:
     # relative import only works when installed as a module
@@ -94,6 +95,18 @@ def curseforge_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str])
     @param mc_version: minecraft version needed
     @param loaders: list of mod loaders to target
     """
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+        "Referer": "https://www.google.com"
+    }
+    url = f"https://www.curseforge.com/minecraft/mc-mods/{current_mod.name}"
+    response = requests.get(url, timeout=10, headers=headers)
+    if response.status_code != 200:
+        print(f"Error {response.status_code} when looking for {current_mod.name}, curseforge doesn't allow content scraping")
+        return current_mod
+    soup = BeautifulSoup(response.text, 'html.parser')
+    mods = soup.find_all('div', class_='project-listing-row')
+    print(mods)
     return current_mod
 
 def update_jar(current_version: mod, latest_version: mod, jar_destination: str):

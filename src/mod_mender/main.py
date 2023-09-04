@@ -6,6 +6,7 @@ import os
 
 import requests
 import click
+from bs4 import BeautifulSoup
 
 try:
     # relative import only works when installed as a module
@@ -86,6 +87,29 @@ def modrinth_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str]) -
 
     return current_mod
 
+def curseforge_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str]) -> mod:
+    """
+    Get the latest version of a mod for a specific minecraft version
+    @param id: path to the list of mod versions
+    @param current_mod_version: current version name of the mod
+    @param mc_version: minecraft version needed
+    @param loaders: list of mod loaders to target
+    WARNING: function will return the current_mod because curseforge doesn't allow content scraping
+    """
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+        "Referer": "https://www.google.com"
+    }
+    url = f"https://www.curseforge.com/minecraft/mc-mods/{current_mod.name}"
+    response = requests.get(url, timeout=10, headers=headers)
+    if response.status_code != 200:
+        print(f"Error {response.status_code} when looking for {current_mod.name}, curseforge doesn't allow content scraping")
+        return current_mod
+    soup = BeautifulSoup(response.text, 'html.parser')
+    mods = soup.find_all('div', class_='project-listing-row')
+    print(mods)
+    return current_mod
+
 def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     """
     Remove old jar file and download new one
@@ -157,10 +181,17 @@ def check_for_updates(mods: list[dict], mc_version: str, loaders: [str]) -> list
     """
     updates = []
     for index, mod_json in enumerate(mods):
-        if mod_json["platform"] == "curseforge": continue
+        match mod_json["platform"].lower():
+            case "modrinth":
+                get_latest_mod = modrinth_get_latest_mod
+            case "curseforge":
+                get_latest_mod = curseforge_get_latest_mod
+            case _:
+                print(f"Unsopported or misspelled mod platform {mod_json['platform']}")
+                continue
 
         current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
-        latest_mod = modrinth_get_latest_mod(current_mod, mc_version, loaders)
+        latest_mod = get_latest_mod(current_mod, mc_version, loaders)
         if (latest_mod.version == current_mod.version):
             print(f"no update possible for {current_mod.name} for {mc_version}")
             continue # no new update available

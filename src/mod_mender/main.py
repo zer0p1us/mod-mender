@@ -94,6 +94,7 @@ def curseforge_get_latest_mod(current_mod: mod, mc_version: str, loaders: [str])
     @param current_mod_version: current version name of the mod
     @param mc_version: minecraft version needed
     @param loaders: list of mod loaders to target
+    WARNING: function will return the current_mod because curseforge doesn't allow content scraping
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',

@@ -270,13 +270,13 @@ def main(file: str, update_to: str, new_file: bool = False):
     if (update_to is not None): minecraft_version = update_to
 
     available_updates = check_for_updates(mods, minecraft_version, mod_list_data['loaders'])
-
+    
     if not available_updates:
         print(f"No available updates for any mod on {minecraft_version}")
         sys.exit(0)
     
     # ask if the of the mods should be updated
-    if (input("Would you like to update the [Y/n]").lower() == 'n'): sys.exit(0)
+    if (input(f"Updates available for {len(available_updates)} out of {len(mods)}\nWould you like to update the [Y/n]").lower() == 'n'): sys.exit(0)
 
     # if the mods have been updated to a newer version of minecraft update the `minecraft_version` on the mod list file
     if minecraft_version != mod_list_data["minecraft_version"]:

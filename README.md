@@ -7,8 +7,7 @@
 
 Supported platforms:
 - Modrinth ✅
-- Github (Coming soon 🕝)
-- CurseForce (Coming soon 🕝)
+- CurseForce (Maybe possible in the future 🕝)
 
 ## Building
 

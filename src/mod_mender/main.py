@@ -290,7 +290,7 @@ def main(file: str, update_to: str, new_file: bool = False):
     for latest_mod, index in available_updates:
         current_mod_json = mods[index]
         current_mod = mod(name=latest_mod.name, version=current_mod_json["current_version"], path=current_mod_json['file'])
-        update_jar(current_version=current_mod, latest_version=latest_mod, jar_destination=get_mods_dir(mod_list_file))
+        update_jar(current_version=current_mod, latest_version=latest_mod, jar_destination=os.path.join(get_mods_dir(mod_list_file), os.path.dirname(current_mod.path)))
         mods[index] = update_json(latest_mod, current_mod_json)
 
     # save new mods_data

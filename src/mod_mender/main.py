@@ -121,7 +121,7 @@ def update_jar(current_version: mod, latest_version: mod, jar_destination: str):
     if ((current_version.url is not None) & (os.path.isfile(old_jar))):
         os.remove(os.path.join(jar_destination, current_version.path))
     file = requests.get(url=latest_version.url, stream=True, timeout=10)
-    print("downloadind: "+latest_version.get_url_filename())
+    print("downloading: "+latest_version.get_url_filename())
     open(os.path.join(jar_destination, latest_version.get_url_filename()), "wb").write(file.content)
 
 def get_path_dir(path: str) -> str:
@@ -164,7 +164,7 @@ def check_for_update(_mod: mod, mc_version: str, loaders: str, platform_check: c
     @param mod: mod object with mod details
     @param mc_version: minecraft version being targeted
     @param loaders: list of mod loaders being targeted
-    @param platform_check: function for the mod platform to check for updates, will return a mod object of the lastest mod
+    @param platform_check: function for the mod platform to check for updates, will return a mod object of the latest mod
     @return dictionary of a boolean indicating if there is an update and a mod object with latest details
     """
     latest_mod = platform_check(_mod, mc_version, loaders)
@@ -187,7 +187,7 @@ def check_for_updates(mods: list[dict], mc_version: str, loaders: [str]) -> list
             case "curseforge":
                 get_latest_mod = curseforge_get_latest_mod
             case _:
-                print(f"Unsopported or misspelled mod platform {mod_json['platform']}")
+                print(f"Unsupported or misspelled mod platform {mod_json['platform']}")
                 continue
 
         current_mod = mod(name=mod_json['id'], version=mod_json['current_version'], path=mod_json['file'])
@@ -207,7 +207,7 @@ def generate_mod_list(file:str):
     @param file: path to json file to be generated
     """
     mc_version = input("Minecraft version you're targeting: ")
-    loaders = input("Mod loaders you're targeting (seperate with a (,) if multiple): ").replace(' ', '').split(",")
+    loaders = input("Mod loaders you're targeting (separate with a (,) if multiple): ").replace(' ', '').split(",")
     json_schema = {
         "minecraft_version": mc_version,
         "loaders": loaders,
@@ -283,7 +283,7 @@ def main(file: str, update_to: str, new_file: bool = False):
         mod_list_data["minecraft_version"] = minecraft_version
         supported_mods = [update_index[1] for update_index in available_updates]
         unsupported_mods = [update_index for update_index in range(len(mods)) if update_index not in supported_mods]
-        # empty `verion` & `file` properties for mods that can't be updated to newer minecraft version
+        # empty `version` & `file` properties for mods that can't be updated to newer minecraft version
         for unsupported_mod in unsupported_mods:
             mods[unsupported_mod] = strip_mod_details(mods[unsupported_mod])
 

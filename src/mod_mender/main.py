@@ -145,15 +145,6 @@ def update_json(updated_mod: mod, json_data: dict) -> dict:
     json_data["file"] = os.path.dirname(json_data["file"]) + updated_mod.get_url_filename()
     return json_data
 
-def get_mods_dir(path_to_modlist: str) -> str:
-    """
-    Return the directly to download mods
-    @param path_to_modlist: relative path to mod_list_file
-    @return path to download mods
-    """
-    return os.path.dirname(path_to_modlist)
-
-
 def check_for_update(_mod: mod, mc_version: str, loaders: str, platform_check: callable) -> {bool, mod}:
     """
     Check if there are any updates for a given mod
@@ -286,7 +277,7 @@ def main(file: str, update_to: str, new_file: bool = False):
     for latest_mod, index in available_updates:
         current_mod_json = mods[index]
         current_mod = mod(name=latest_mod.name, version=current_mod_json["current_version"], path=current_mod_json['file'])
-        update_jar(current_version=current_mod, latest_version=latest_mod, jar_destination=os.path.join(get_mods_dir(mod_list_file), os.path.dirname(current_mod.path)))
+        update_jar(current_version=current_mod, latest_version=latest_mod, jar_destination=os.path.join(os.path.dirname(mod_list_file), os.path.dirname(current_mod.path)))
         mods[index] = update_json(latest_mod, current_mod_json)
 
     # save new mods_data

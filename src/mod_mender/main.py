@@ -151,10 +151,6 @@ def get_mods_dir(path_to_modlist: str) -> str:
     @param path_to_modlist: relative path to mod_list_file
     @return path to download mods
     """
-    # absolute paths
-    if (os.path.isabs(path_to_modlist)):
-        return os.path.dirname(path_to_modlist)
-    # relative paths
     return os.path.dirname(path_to_modlist)
 
 
